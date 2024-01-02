@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 import itertools
+from dataclasses import dataclass, field
 
+@dataclass
 class Cell:
+
+    value: int = None
 
     emptychar = '.'
 

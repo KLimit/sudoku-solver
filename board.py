@@ -21,8 +21,12 @@ class Board:
         but the numbers and emptychar.
         """
         self.size = size
+        self.house_size = size ** 0.5
+        if not self.house_size.is_integer():
+            raise ValueError('board size must be a square number (for houses)')
         self.cells = list(cells)
-        # TODO: malformed board check
+        if size**2 < len(self.cells):
+            raise IndexError('too many cells')
         while len(self.cells) < size**2:
             self.cells.append(Cell())
 

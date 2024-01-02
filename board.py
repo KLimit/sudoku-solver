@@ -39,3 +39,20 @@ class Board:
             if char in allowed
         )
         return cls(cells, size=size)
+
+    def rows(self):
+        """Yield rows at a time."""
+        # truncated from itertools' "grouper" recipe
+        cells = [iter(self.cells)] * self.size
+        yield from zip(*cells, strict=True)
+
+    def columns(self):
+        """Yield columns at a time."""
+        key = lambda n: n[0] % self.size
+        cells = sorted(enumerate(self.cells), key=key)
+        for _, group in itertools.groupby(cells, key):
+            yield tuple(cell for col, cell in group)
+
+    def houses(self):
+        """Yield houses at a time."""
+        houses = [[] for _ in self.size]

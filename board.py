@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
-from dataclasses import dataclass, field
+import itertools
 
-@dataclass
 class Cell:
-    value: int = None
+
+    emptychar = '.'
+
+    def __init__(self, value=None):
+        self.value = value
+
+    def __repr__(self):
+        return repr(self.value or self.emptychar)
+
 
 class Board:
-    size: int = 9
 
     def __init__(self, cells=None, size=9):
         """Populate cells of the board by string.

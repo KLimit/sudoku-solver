@@ -81,6 +81,15 @@ class Board(list):
                 d[self.house_pair(row, column)].append(value)
         return d
 
+    def solved(self):
+        if 0 in self:
+            return False
+        solved_group = self.solved_group
+        return all(
+            set(group) == solved_group
+            for group in chain(self.rows, self.columns, self.houses)
+        )
+
     def cells_groups(self):
         # i.e. cells' groups
         """Yield each (cell, value) paired with their three groups."""

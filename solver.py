@@ -1,6 +1,6 @@
 from collections import defaultdict
 from functools import cache
-from itertools import chain
+from itertools import chain, product
 import math
 import re
 import string
@@ -20,6 +20,7 @@ def solve(board):
     while lasthash != (lasthash:=hash(board)):
         board.apply(*singles(board))
     # TODO: use cells_and_groups to better generate permutations
+    # CONSIDER: recurse back into solve whenever there are singles
     return board
 
 
@@ -31,6 +32,9 @@ def singles(board: Board):
         if len(options) == 1
     ]
 
+def permutations(board):
+    cells, options = zip(*board.cells_options())
+    # for permutation in 
 
 class Board(list):
     def __init__(self, *args, **kwargs):

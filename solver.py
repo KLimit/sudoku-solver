@@ -25,14 +25,12 @@ def solve(board):
 
 def singles(board: Board):
     """Return index, value pairs of cells that are singles."""
-    # TODO: turn this generator into Board method cells_options (minus the
-    # len == 1 part), then use this
-    return (
-        (cell, solution.pop())
-        for cell, value, groups in board.cells_and_groups()
-        if not value
-        and len(solution := board.solved_group - set(chain(*groups))) == 1
-    )
+    return [
+        (cell, options.pop())
+        for cell, options in board.cells_options()
+        if len(options) == 1
+    ]
+
 
 class Board(list):
     def __init__(self, *args, **kwargs):
@@ -79,7 +77,8 @@ class Board(list):
                 d[self.house_pair(row, column)].append(value)
         return d
 
-    def cells_and_groups(self):
+    def cells_groups(self):
+        # i.e. cells' groups
         """Yield each (cell, value) paired with their three groups."""
         hs = self.house_size
         for cell, value in enumerate(self):
@@ -88,6 +87,13 @@ class Board(list):
             row = self.rows[row]
             column = self.columns[column]
             yield cell, value, (house, row, column)
+
+    def cells_options(self):
+        return tuple(
+            (cell, self.solved_group - set(chain(*groups)))
+            for cell, value, groups in self.cells_groups()
+            if not value
+        )
 
     def apply(self, *solutions):
         for cell, value in solutions:

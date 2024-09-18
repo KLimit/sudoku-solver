@@ -60,7 +60,8 @@ class Board(list):
             '|'.join(''.join(map(str, sub)) for sub in grouper_(row))
             for row in self.rows
         )
-        return horizontal.join('\n'.join(big_row) for big_row in grouper_(rows))
+        b = horizontal.join('\n'.join(big_row) for big_row in grouper_(rows))
+        return b.replace('0', ' ')
     @property
     @cache
     def rows(self):

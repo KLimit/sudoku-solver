@@ -1,4 +1,4 @@
-from collections import defaultdict
+from collections import Counter, defaultdict
 from functools import cache
 from itertools import chain, product
 import math
@@ -89,6 +89,18 @@ class Board(list):
             set(group) == solved_group
             for group in chain(self.rows, self.columns, self.houses)
         )
+
+    def counts(self):
+        counts = Counter(self)
+        counts.pop(0)
+        return counts
+
+    def remaining(self):
+        return {
+            num: self.size - count
+            for num, count in self.counts().most_common()
+        }
+    # then you can do something to get the value with the least remaining
 
     def cells_groups(self):
         # i.e. cells' groups
